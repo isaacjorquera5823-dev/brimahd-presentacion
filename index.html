@@ -1,1 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brimahd — App de Inspección Eléctrica</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Roboto', sans-serif; background: #111; color: #fff; overflow-x: hidden; }
 
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(17,17,17,0.95); border-bottom: 1px solid rgba(232,185,35,0.2); padding: 14px 40px; display: flex; justify-content: space-between; align-items: center; }
+  .nav-logo { font-size: 16px; font-weight: 700; color: #e8b923; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { font-size: 13px; color: rgba(255,255,255,0.6); text-decoration: none; cursor: pointer; transition: color 0.2s; }
+  .nav-links a:hover { color: #e8b923; }
+
+  /* SECCIONES */
+  section { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 100px 40px 60px; }
+  section:nth-child(even) { background: #161616; }
+
+  /* HERO */
+  .hero { flex-direction: column; text-align: center; background: linear-gradient(135deg, #111 0%, #1a1a1a 50%, #111 100%); position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(232,185,35,0.08) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%,-50%); }
+  .hero-badge { background: rgba(232,185,35,0.15); border: 1px solid rgba(232,185,35,0.4); color: #e8b923; font-size: 12px; font-weight: 700; padding: 6px 16px; border-radius: 20px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 28px; display: inline-block; }
+  .hero h1 { font-size: clamp(32px, 6vw, 64px); font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
+  .hero h1 span { color: #e8b923; }
+  .hero p { font-size: clamp(15px, 2vw, 20px); color: rgba(255,255,255,0.6); max-width: 600px; line-height: 1.7; margin-bottom: 40px; }
+  .hero-cta { background: #e8b923; color: #111; padding: 14px 36px; border-radius: 8px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; transition: transform 0.2s, background 0.2s; }
+  .hero-cta:hover { background: #d4a017; transform: translateY(-2px); }
+
+  /* PROBLEMA */
+  .problema-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; max-width: 1100px; width: 100%; }
+  .problema-texto h2 { font-size: clamp(24px, 4vw, 42px); font-weight: 900; line-height: 1.2; margin-bottom: 20px; }
+  .problema-texto h2 span { color: #e8b923; }
+  .problema-texto p { font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.8; margin-bottom: 16px; }
+  .pain-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .pain-item { display: flex; align-items: flex-start; gap: 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 14px 16px; }
+  .pain-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+  .pain-text { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.6; }
+  .pain-text strong { color: white; }
+
+  /* WORD MOCKUP */
+  .word-mockup { background: #1e1e1e; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; position: relative; }
+  .word-mockup::before { content: 'Proceso anterior'; position: absolute; top: -12px; left: 20px; background: #c0392b; color: white; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .word-step { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .word-step:last-child { border-bottom: none; }
+  .word-step-num { width: 26px; height: 26px; border-radius: 50%; background: rgba(192,57,43,0.2); border: 1px solid rgba(192,57,43,0.4); color: #e74c3c; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .word-step-text { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.4; }
+  .word-step-text strong { color: rgba(255,255,255,0.9); }
+  .time-badge { background: rgba(192,57,43,0.15); border: 1px solid rgba(192,57,43,0.3); color: #e74c3c; font-size: 12px; font-weight: 700; padding: 8px 16px; border-radius: 8px; margin-top: 16px; text-align: center; }
+
+  /* SOLUCIÓN */
+  .solucion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; max-width: 1100px; width: 100%; }
+  .solucion-texto h2 { font-size: clamp(24px, 4vw, 42px); font-weight: 900; line-height: 1.2; margin-bottom: 20px; }
+  .solucion-texto h2 span { color: #e8b923; }
+  .solucion-texto p { font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.8; margin-bottom: 24px; }
+  .app-mockup { background: #2c2c2c; border-radius: 24px; padding: 20px; border: 2px solid rgba(232,185,35,0.3); position: relative; max-width: 280px; margin: 0 auto; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+  .app-mockup::before { content: 'Nueva solución'; position: absolute; top: -12px; left: 20px; background: #27ae60; color: white; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .app-header { background: #2c2c2c; border-radius: 12px 12px 0 0; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; }
+  .app-logo-text { font-size: 12px; font-weight: 700; color: white; }
+  .app-logo-sub { font-size: 9px; color: #e8b923; }
+  .app-num { font-size: 22px; font-weight: 900; color: #e8b923; text-align: center; margin: 12px 0 4px; }
+  .app-num-label { font-size: 11px; color: rgba(255,255,255,0.5); text-align: center; margin-bottom: 14px; }
+  .app-btn { background: #2c2c2c; color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 700; text-align: center; margin-bottom: 8px; }
+  .app-step { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .app-step:last-child { border-bottom: none; }
+  .app-step-num { width: 22px; height: 22px; border-radius: 50%; background: rgba(232,185,35,0.2); border: 1px solid rgba(232,185,35,0.4); color: #e8b923; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .app-step-text { font-size: 11px; color: rgba(255,255,255,0.7); }
+  .time-badge-green { background: rgba(39,174,96,0.15); border: 1px solid rgba(39,174,96,0.3); color: #27ae60; font-size: 12px; font-weight: 700; padding: 8px 16px; border-radius: 8px; margin-top: 16px; text-align: center; }
+
+  /* BENEFICIOS */
+  .beneficios-wrap { max-width: 1100px; width: 100%; }
+  .beneficios-wrap h2 { font-size: clamp(24px, 4vw, 42px); font-weight: 900; text-align: center; margin-bottom: 12px; }
+  .beneficios-wrap h2 span { color: #e8b923; }
+  .beneficios-wrap .sub { text-align: center; color: rgba(255,255,255,0.55); font-size: 15px; margin-bottom: 48px; }
+  .beneficios-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .beneficio-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 24px; transition: border-color 0.3s, transform 0.3s; }
+  .beneficio-card:hover { border-color: rgba(232,185,35,0.4); transform: translateY(-4px); }
+  .beneficio-icon { font-size: 32px; margin-bottom: 14px; }
+  .beneficio-titulo { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+  .beneficio-desc { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+  /* STATS */
+  .stats-wrap { max-width: 900px; width: 100%; text-align: center; }
+  .stats-wrap h2 { font-size: clamp(24px, 4vw, 42px); font-weight: 900; margin-bottom: 48px; }
+  .stats-wrap h2 span { color: #e8b923; }
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .stat-card { background: rgba(232,185,35,0.06); border: 1px solid rgba(232,185,35,0.2); border-radius: 14px; padding: 32px 20px; }
+  .stat-num { font-size: 48px; font-weight: 900; color: #e8b923; line-height: 1; }
+  .stat-label { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 8px; line-height: 1.4; }
+
+  /* FUNCIONALIDADES */
+  .func-wrap { max-width: 1100px; width: 100%; }
+  .func-wrap h2 { font-size: clamp(24px, 4vw, 42px); font-weight: 900; text-align: center; margin-bottom: 12px; }
+  .func-wrap h2 span { color: #e8b923; }
+  .func-wrap .sub { text-align: center; color: rgba(255,255,255,0.55); font-size: 15px; margin-bottom: 48px; }
+  .func-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .func-item { display: flex; align-items: flex-start; gap: 14px; padding: 16px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; }
+  .func-check { width: 24px; height: 24px; background: rgba(232,185,35,0.15); border: 1px solid rgba(232,185,35,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #e8b923; font-size: 12px; flex-shrink: 0; margin-top: 1px; }
+  .func-text strong { font-size: 14px; display: block; margin-bottom: 3px; }
+  .func-text span { font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+
+  /* CTA FINAL */
+  .cta-final { flex-direction: column; text-align: center; background: linear-gradient(135deg, #1a1500 0%, #111 50%, #1a1500 100%); }
+  .cta-final h2 { font-size: clamp(28px, 5vw, 52px); font-weight: 900; line-height: 1.2; margin-bottom: 16px; }
+  .cta-final h2 span { color: #e8b923; }
+  .cta-final p { font-size: 16px; color: rgba(255,255,255,0.6); max-width: 500px; line-height: 1.7; margin-bottom: 40px; }
+  .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .cta-primary { background: #e8b923; color: #111; padding: 16px 40px; border-radius: 8px; font-size: 16px; font-weight: 700; border: none; cursor: pointer; transition: transform 0.2s; }
+  .cta-primary:hover { transform: translateY(-2px); }
+  .cta-secondary { background: transparent; color: white; padding: 16px 40px; border-radius: 8px; font-size: 16px; font-weight: 700; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; transition: border-color 0.2s; }
+  .cta-secondary:hover { border-color: #e8b923; color: #e8b923; }
+
+  /* FOOTER */
+  footer { background: #0a0a0a; padding: 30px 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(232,185,35,0.15); }
+  .footer-logo { font-size: 14px; font-weight: 700; color: #e8b923; }
+  .footer-sub { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 3px; }
+  .footer-right { font-size: 12px; color: rgba(255,255,255,0.4); text-align: right; }
+
+  @media (max-width: 768px) {
+    nav { padding: 12px 20px; }
+    .nav-links { display: none; }
+    section { padding: 80px 20px 40px; }
+    .problema-grid, .solucion-grid { grid-template-columns: 1fr; gap: 40px; }
+    .beneficios-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .func-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+    .footer-right { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">BRIMAHD LTDA.</div>
+  <div class="nav-links">
+    <a href="#problema">El problema</a>
+    <a href="#solucion">La solución</a>
+    <a href="#beneficios">Beneficios</a>
+    <a href="#funcionalidades">Funcionalidades</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">⚡ Innovación para Brimahd Ltda.</div>
+  <h1>Del Word manual<br>al <span>informe digital</span><br>en minutos</h1>
+  <p>Una app diseñada para que Emanuel y su equipo generen informes de mantención eléctrica profesionales directamente desde el celular, en terreno.</p>
+  <button class="hero-cta" onclick="location.href='#problema'">Ver la propuesta →</button>
+</section>
+
+<!-- PROBLEMA -->
+<section id="problema">
+  <div class="problema-grid">
+    <div class="problema-texto">
+      <h2>El proceso actual<br><span>cuesta tiempo y dinero</span></h2>
+      <p>Brimahd presta un servicio técnico de alta calidad. Pero el proceso de documentación no estaba a la altura de ese servicio.</p>
+      <ul class="pain-list">
+        <li class="pain-item">
+          <span class="pain-icon">📱</span>
+          <span class="pain-text"><strong>Registro por WhatsApp</strong> — Las fotos y observaciones se enviaban por chat, acumulándose sin orden ni estructura.</span>
+        </li>
+        <li class="pain-item">
+          <span class="pain-icon">📄</span>
+          <span class="pain-text"><strong>Word manual y lento</strong> — El informe se construía a mano en Word, copiando y pegando información dispersa.</span>
+        </li>
+        <li class="pain-item">
+          <span class="pain-icon">⏳</span>
+          <span class="pain-text"><strong>1 a 2 semanas de retraso</strong> — Los informes se acumulaban y el dueño los procesaba en batch, perdiendo tiempo valioso de terreno.</span>
+        </li>
+        <li class="pain-item">
+          <span class="pain-icon">👤</span>
+          <span class="pain-text"><strong>Carga sobre el dueño</strong> — Emanuel hacía los informes personalmente, quitándole horas que debería dedicar a operar y crecer el negocio.</span>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <div class="word-mockup">
+        <div class="word-step">
+          <div class="word-step-num">1</div>
+          <div class="word-step-text"><strong>Inspector en terreno</strong> — saca fotos y anota en WhatsApp</div>
+        </div>
+        <div class="word-step">
+          <div class="word-step-num">2</div>
+          <div class="word-step-text"><strong>Días después</strong> — Emanuel busca las fotos entre mensajes</div>
+        </div>
+        <div class="word-step">
+          <div class="word-step-num">3</div>
+          <div class="word-step-text"><strong>Abre el Word</strong> — copia observaciones manualmente una por una</div>
+        </div>
+        <div class="word-step">
+          <div class="word-step-num">4</div>
+          <div class="word-step-text"><strong>Inserta fotos</strong> — ajusta tamaños, formatos, márgenes</div>
+        </div>
+        <div class="word-step">
+          <div class="word-step-num">5</div>
+          <div class="word-step-text"><strong>Envía al cliente</strong> — 1 a 2 semanas después de la visita</div>
+        </div>
+        <div class="time-badge">⏱ Tiempo promedio: 1 a 2 semanas por informe</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUCIÓN -->
+<section id="solucion">
+  <div class="solucion-grid">
+    <div class="solucion-texto">
+      <h2>La solución:<br><span>informe listo en terreno</span></h2>
+      <p>Desarrollamos una aplicación móvil diseñada específicamente para Brimahd. El inspector llena el informe en el celular mientras hace la mantención — con fotos, criticidades y observaciones — y al terminar genera un informe profesional listo para enviar.</p>
+      <p>Sin Word. Sin WhatsApp. Sin acumulación. Sin esperar.</p>
+      <div class="time-badge-green">⚡ Tiempo de entrega: mismo día de la visita</div>
+    </div>
+    <div>
+      <div class="app-mockup">
+        <div class="app-header">
+          <div><div class="app-logo-text">Brimahd ltda.</div><div class="app-logo-sub">Servicios Eléctricos</div></div>
+          <span style="font-size:11px;color:rgba(255,255,255,0.4);">⚙</span>
+        </div>
+        <div class="app-num-label">Próximo número:</div>
+        <div class="app-num">INF-0001</div>
+        <div class="app-btn">+ Crear nuevo informe</div>
+        <div style="margin-top:14px;">
+          <div class="app-step"><div class="app-step-num">1</div><div class="app-step-text">Completa datos del cliente</div></div>
+          <div class="app-step"><div class="app-step-num">2</div><div class="app-step-text">Agrega tableros con fotos y criticidad</div></div>
+          <div class="app-step"><div class="app-step-num">3</div><div class="app-step-text">Genera informe profesional</div></div>
+          <div class="app-step"><div class="app-step-num">4</div><div class="app-step-text">Descarga y envía por WhatsApp o Email</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="stats-wrap">
+    <h2>El impacto <span>en números</span></h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num">-90%</div>
+        <div class="stat-label">Reducción en tiempo de generación de informes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">0</div>
+        <div class="stat-label">Horas del dueño dedicadas a redactar informes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">= día</div>
+        <div class="stat-label">Entrega del informe el mismo día de la visita</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFICIOS -->
+<section id="beneficios">
+  <div class="beneficios-wrap">
+    <h2>¿Qué gana <span>Brimahd?</span></h2>
+    <p class="sub">Beneficios concretos para el negocio y para el equipo</p>
+    <div class="beneficios-grid">
+      <div class="beneficio-card">
+        <div class="beneficio-icon">⏱</div>
+        <div class="beneficio-titulo">Tiempo recuperado</div>
+        <div class="beneficio-desc">Emanuel deja de hacer informes y puede dedicar ese tiempo a conseguir nuevos clientes, supervisar trabajos y hacer crecer el negocio.</div>
+      </div>
+      <div class="beneficio-card">
+        <div class="beneficio-icon">🏆</div>
+        <div class="beneficio-titulo">Imagen profesional</div>
+        <div class="beneficio-desc">El cliente recibe un informe ejecutivo con diseño profesional el mismo día. Eso diferencia a Brimahd de la competencia.</div>
+      </div>
+      <div class="beneficio-card">
+        <div class="beneficio-icon">📱</div>
+        <div class="beneficio-titulo">100% en terreno</div>
+        <div class="beneficio-desc">El inspector completa todo desde su celular mientras hace la mantención. Sin papeles, sin notas, sin fotos perdidas en WhatsApp.</div>
+      </div>
+      <div class="beneficio-card">
+        <div class="beneficio-icon">📊</div>
+        <div class="beneficio-titulo">Trazabilidad</div>
+        <div class="beneficio-desc">Cada informe tiene un número correlativo único. Se sabe exactamente cuántos informes se han generado y para qué clientes.</div>
+      </div>
+      <div class="beneficio-card">
+        <div class="beneficio-icon">🔒</div>
+        <div class="beneficio-titulo">Sin instalación</div>
+        <div class="beneficio-desc">La app funciona desde el navegador del celular. No requiere descargar nada de la App Store. Acceso desde cualquier dispositivo.</div>
+      </div>
+      <div class="beneficio-card">
+        <div class="beneficio-icon">🚀</div>
+        <div class="beneficio-titulo">Escalable</div>
+        <div class="beneficio-desc">Hoy para Brimahd, mañana para cualquier empresa de inspección eléctrica, sanitaria o de climatización en Chile.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FUNCIONALIDADES -->
+<section id="funcionalidades">
+  <div class="func-wrap">
+    <h2>¿Qué incluye <span>la app?</span></h2>
+    <p class="sub">Todo lo que se necesita para generar un informe profesional desde el celular</p>
+    <div class="func-grid">
+      <div class="func-item">
+        <div class="func-check">✓</div>
+        <div class="func-text"><strong>Numeración correlativa automática</strong><span>Cada informe recibe un número único (INF-0001, INF-0002…) para trazabilidad total.</span></div>
+      </div>
+      <div class="func-item">
+        <div class="func-check">✓</div>
+        <div class="func-text"><strong>Registro por tablero</strong><span>Nombre, piso, criticidad (Crítico / Atención / Planificado), observaciones y acciones ejecutadas.</span></div>
+      </div>
+      <div class="func-item">
+        <div class="func-check">✓</div>
+        <div class="func-text"><strong>Fotos integradas</strong><span>El inspector saca fotos desde la cámara del celular y quedan integradas al informe automáticamente.</span></div>
+      </div>
+      <div class="func-item">
+        <div class="func-check">✓</div>
+        <div class="func-text"><strong>Informe ejecutivo profesional</strong><span>Diseño con colores corporativos de Brimahd, resumen con KPIs y detalle por tablero.</span></div>
+      </div>
+      <div class="func-item">
+        <div class="func-check">✓</div>
+        <div class="func-text"><strong>Descarga con nombre automático</strong><span>El archivo se descarga como "INF-0001 - Cliente.html" listo para compartir.</span></div>
+      </div>
+      <div class="func-item">
+        <div class="func-check">✓</div>
+        <div class="func-text"><strong>Envío por WhatsApp o Email</strong><span>Flujo guiado paso a paso para compartir el informe al cliente sin confusiones.</span></div>
+      </div>
+      <div class="func-item">
+        <div class="func-check">✓</div>
+        <div class="func-text"><strong>Personal múltiple</strong><span>Se pueden agregar varios técnicos por informe. Queda registrado quién realizó la mantención.</span></div>
+      </div>
+      <div class="func-item">
+        <div class="func-check">✓</div>
+        <div class="func-text"><strong>Mejora con IA (próximamente)</strong><span>Claude revisará ortografía y mejorará la redacción automáticamente antes de generar el informe.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final">
+  <div class="hero-badge">🎯 Propuesta para Brimahd Ltda.</div>
+  <h2>Emanuel, esto es<br><span>tuyo desde hoy</span></h2>
+  <p>La app ya está construida, funcionando y disponible en una URL pública. Solo necesitamos tu feedback para afinarla y ponerla en manos de tu equipo.</p>
+  <div class="cta-buttons">
+    <button class="cta-primary" onclick="window.open('https://isaacjorquera5823-dev.github.io/Brimahd-inspeccion/', '_blank')">Ver la app en vivo →</button>
+    <button class="cta-secondary">Solicitar demostración</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">BRIMAHD LTDA.</div>
+    <div class="footer-sub">Servicios Eléctricos y Telecomunicaciones · 76.940.738-3</div>
+  </div>
+  <div class="footer-right">
+    Propuesta desarrollada por Isaac Jorquera<br>
+    <span style="color:rgba(255,255,255,0.25);">servicios@brimahd.cl</span>
+  </div>
+</footer>
+
+</body>
+</html>
