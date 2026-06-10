@@ -12,9 +12,15 @@
   /* NAV */
   nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(17,17,17,0.95); border-bottom: 1px solid rgba(232,185,35,0.2); padding: 14px 40px; display: flex; justify-content: space-between; align-items: center; }
   .nav-logo { font-size: 16px; font-weight: 700; color: #e8b923; }
-  .nav-links { display: flex; gap: 28px; }
-  .nav-links a { font-size: 13px; color: rgba(255,255,255,0.6); text-decoration: none; cursor: pointer; transition: color 0.2s; }
-  .nav-links a:hover { color: #e8b923; }
+  .nav-links { display: flex; gap: 8px; }
+  .nav-links a { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.7); text-decoration: none; padding: 7px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s; }
+  .nav-links a:hover { background: rgba(232,185,35,0.15); border-color: rgba(232,185,35,0.4); color: #e8b923; }
+
+  /* NAV MOBILE */
+  .nav-mobile { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: rgba(17,17,17,0.97); border-top: 1px solid rgba(232,185,35,0.2); padding: 10px 16px; display: none; justify-content: space-around; }
+  .nav-mobile a { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.6); text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 10px; border-radius: 8px; transition: all 0.2s; }
+  .nav-mobile a:hover { color: #e8b923; }
+  .nav-mobile a span { font-size: 18px; }
 
   /* SECCIONES */
   section { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 100px 40px 60px; }
@@ -122,7 +128,8 @@
   @media (max-width: 768px) {
     nav { padding: 12px 20px; }
     .nav-links { display: none; }
-    section { padding: 80px 20px 40px; }
+    .nav-mobile { display: flex; }
+    section { padding: 80px 20px 80px; }
     .problema-grid, .solucion-grid { grid-template-columns: 1fr; gap: 40px; }
     .beneficios-grid { grid-template-columns: 1fr; }
     .stats-grid { grid-template-columns: 1fr; }
@@ -138,19 +145,28 @@
 <nav>
   <div class="nav-logo">BRIMAHD LTDA.</div>
   <div class="nav-links">
-    <a href="#problema">El problema</a>
-    <a href="#solucion">La solución</a>
-    <a href="#beneficios">Beneficios</a>
-    <a href="#funcionalidades">Funcionalidades</a>
+    <a href="#problema">🔴 El problema</a>
+    <a href="#solucion">💡 La solución</a>
+    <a href="#beneficios">🏆 Beneficios</a>
+    <a href="#funcionalidades">✅ Funcionalidades</a>
   </div>
 </nav>
+
+<!-- NAV MOBILE -->
+<div class="nav-mobile">
+  <a href="#problema"><span>🔴</span>Problema</a>
+  <a href="#solucion"><span>💡</span>Solución</a>
+  <a href="#stats"><span>📊</span>Impacto</a>
+  <a href="#beneficios"><span>🏆</span>Beneficios</a>
+  <a href="#funcionalidades"><span>✅</span>Features</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-badge">⚡ Innovación para Brimahd Ltda.</div>
   <h1>Del Word manual<br>al <span>informe digital</span><br>en minutos</h1>
   <p>Una app diseñada para que Emanuel y su equipo generen informes de mantención eléctrica profesionales directamente desde el celular, en terreno.</p>
-  <button class="hero-cta" onclick="location.href='#problema'">Ver la propuesta →</button>
+
 </section>
 
 <!-- PROBLEMA -->
